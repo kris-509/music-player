@@ -1,14 +1,14 @@
-<!DOCTYPE html>
+ï»¿<!DOCTYPE html>
 <html lang="zh">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ÍøÕ¾ÄÚÁ¬Ğø²¥·ÅÒôÀÖ</title>
+    <title>ç½‘ç«™å†…è¿ç»­æ’­æ”¾éŸ³ä¹</title>
     <style>
         body {
             font-family: Arial, sans-serif;
         }
-        /* Ğü¸¡Ğ¡µ¯´°ÑùÊ½ */
+        /* æ‚¬æµ®å°å¼¹çª—æ ·å¼ */
         .music-popup {
             position: fixed;
             bottom: 20px;
@@ -50,16 +50,16 @@
 <body>
 
 <div class="music-popup" id="musicPopup">
-    <button class="play-btn" id="playPauseBtn">??</button>
+    <button class="play-btn" id="playPauseBtn">â¸ï¸</button>
     <div class="music-info">
-        <h3>ÕıÔÚ²¥·Å: ¸èÇúÃû³Æ</h3>
+        <h3>æ­£åœ¨æ’­æ”¾: Sticky</h3>
     </div>
-    <button class="close-btn" onclick="stopMusic()">¡Á</button>
+    <button class="close-btn" onclick="stopMusic()">Ã—</button>
 </div>
 
 <audio id="backgroundMusic" loop>
     <source src="https://audio.jukehost.co.uk/9aPGmFRg7n0K5JE5zRlPv2sox4hXdJGS.mp3" type="audio/mpeg">
-    ÄúµÄä¯ÀÀÆ÷²»Ö§³ÖÒôÆµÔªËØ¡£
+    æ‚¨çš„æµè§ˆå™¨ä¸æ”¯æŒéŸ³é¢‘å…ƒç´ ã€‚
 </audio>
 
 <script>
@@ -67,39 +67,39 @@
     var playPauseBtn = document.getElementById('playPauseBtn');
     var isPlaying = true;
 
-    // ×Ô¶¯²¥·ÅÒôÀÖ²¢±£Áô×´Ì¬
+    // è‡ªåŠ¨æ’­æ”¾éŸ³ä¹å¹¶ä¿ç•™çŠ¶æ€
     window.addEventListener('load', function() {
         if (localStorage.getItem('musicPaused') !== 'true') {
             music.play();
         } else {
             isPlaying = false;
-            playPauseBtn.textContent = '??';
+            playPauseBtn.textContent = 'â–¶ï¸';
         }
     });
 
-    // ÇĞ»»²¥·Å/ÔİÍ£¹¦ÄÜ
+    // åˆ‡æ¢æ’­æ”¾/æš‚åœåŠŸèƒ½
     playPauseBtn.addEventListener('click', function() {
         if (isPlaying) {
             music.pause();
             isPlaying = false;
-            playPauseBtn.textContent = '??';
+            playPauseBtn.textContent = 'â–¶ï¸';
             localStorage.setItem('musicPaused', 'true');
         } else {
             music.play();
             isPlaying = true;
-            playPauseBtn.textContent = '??';
+            playPauseBtn.textContent = 'â¸ï¸';
             localStorage.setItem('musicPaused', 'false');
         }
     });
 
-    // Í£Ö¹ÒôÀÖ²¢ÒÆ³ıµ¯´°
+    // åœæ­¢éŸ³ä¹å¹¶ç§»é™¤å¼¹çª—
     function stopMusic() {
         music.pause();
         localStorage.setItem('musicPaused', 'true');
         document.getElementById('musicPopup').style.display = 'none';
     }
 
-    // ¼à¿ØÊÓÆµÔªËØ£¬ÔİÍ£ºÍ»Ö¸´ÒôÀÖ
+    // ç›‘æ§è§†é¢‘å…ƒç´ ï¼Œæš‚åœå’Œæ¢å¤éŸ³ä¹
     document.querySelectorAll('video').forEach(function(video) {
         video.addEventListener('play', function() {
             if (isPlaying) {
@@ -113,7 +113,7 @@
         });
     });
 
-    // ¼àÌı´°¿Ú¹Ø±Õ£¬±£´æ²¥·Å×´Ì¬
+    // ç›‘å¬çª—å£å…³é—­ï¼Œä¿å­˜æ’­æ”¾çŠ¶æ€
     window.addEventListener('beforeunload', function() {
         if (!isPlaying) {
             localStorage.setItem('musicPaused', 'true');
