@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>网站内连续播放音乐</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        /* 悬浮小弹窗样式 */
+        .music-popup {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 300px;
+            padding: 10px;
+            background-color: rgba(0, 0, 0, 0.7);
+            color: white;
+            border-radius: 8px;
+            box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+        }
+        .music-info {
+            flex-grow: 1;
+            margin-left: 10px;
+        }
+        .close-btn {
+            background-color: transparent;
+            border: none;
+            color: white;
+            font-size: 20px;
+            cursor: pointer;
+        }
+        .play-btn {
+            background-color: #4CAF50;
+            border: none;
+            color: white;
+            padding: 10px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .play-btn:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+
+<div class="music-popup" id="musicPopup">
+    <button class="play-btn" id="playPauseBtn">??</button>
+    <div class="music-info">
+        <h3>正在播放: 歌曲名称</h3>
+    </div>
+    <button class="close-btn" onclick="stopMusic()">×</button>
+</div>
+
+<audio id="backgroundMusic" loop>
+    <source src="https://audio.jukehost.co.uk/9aPGmFRg7n0K5JE5zRlPv2sox4hXdJGS.mp3" type="audio/mpeg">
+    您的浏览器不支持音频元素。
+</audio>
+
+<script>
+    var music = document.getElementById('backgroundMusic');
+    var playPauseBtn = document.getElementById('playPauseBtn');
+    var isPlaying = true;
+
+    // 自动播放音乐并保留状态
+    window.addEventListener('load', function() {
+        if (localStorage.getItem('musicPaused') !== 'true') {
+            music.play();
+        } else {
+            isPlaying = false;
+            playPauseBtn.textContent = '??';
+        }
+    });
+
+    // 切换播放/暂停功能
+    playPauseBtn.addEventListener('click', function() {
+        if (isPlaying) {
+            music.pause();
+            isPlaying = false;
+            playPauseBtn.textContent = '??';
+            localStorage.setItem('musicPaused', 'true');
+        } else {
+            music.play();
+            isPlaying = true;
+            playPauseBtn.textContent = '??';
+            localStorage.setItem('musicPaused', 'false');
+        }
+    });
+
+    // 停止音乐并移除弹窗
+    function stopMusic() {
+        music.pause();
+        localStorage.setItem('musicPaused', 'true');
+        document.getElementById('musicPopup').style.display = 'none';
+    }
+
+    // 监控视频元素，暂停和恢复音乐
+    document.querySelectorAll('video').forEach(function(video) {
+        video.addEventListener('play', function() {
+            if (isPlaying) {
+                music.pause();
+            }
+        });
+        video.addEventListener('ended', function() {
+            if (isPlaying) {
+                music.play();
+            }
+        });
+    });
+
+    // 监听窗口关闭，保存播放状态
+    window.addEventListener('beforeunload', function() {
+        if (!isPlaying) {
+            localStorage.setItem('musicPaused', 'true');
+        }
+    });
+</script>
+
+</body>
+</html>
